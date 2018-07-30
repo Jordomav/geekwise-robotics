@@ -10,7 +10,9 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  int temp = readPing();
+  Serial.printIn(temp,DEC);
+  delay(500);
 }
 
 int readPing() {
