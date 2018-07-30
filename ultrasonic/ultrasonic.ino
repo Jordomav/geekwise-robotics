@@ -4,14 +4,17 @@
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-//  pinMode(ECHO_PIN, INPUT);
-//  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(TRIG_PIN, OUTPUT);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   int temp = readPing();
-  Serial.println(temp,DEC);
+  if (temp < 1000) {
+    Serial.print("Less than......");
+  }
+//  Serial.println(temp,DEC);
   delay(500);
 }
 
@@ -27,10 +30,10 @@ int readPing() {
 
   pinMode(ECHO_PIN, INPUT);
   duration = pulseIn(ECHO_PIN, HIGH);
-//  cm = microsecondsToCentimeters(duration);
-//  return cm;
-inches = microsecondsToInches(duration);
-return inches;
+  cm = microsecondsToCentimeters(duration);
+  return cm;
+//inches = microsecondsToInches(duration);
+//return inches;
 }
 
 long microsecondsToCentimeters(long microseconds) {
