@@ -1,24 +1,46 @@
 #define leftFactor 10
-#define rightFactor 5
-#define speedSet 150
+#define rightFactor 10
+#define speedSet 200
 #define TRIG_PIN A2
 #define ECHO_PIN A3
+#define SERVO_PIN 10
+
 #include <UCMotor.h>
+#include <Servo.h>
 
 UC_DCMotor leftMotor(3, MOTOR34_64KHZ);
 UC_DCMotor rightMotor(4, MOTOR34_64KHZ);
+
+Servo neckController;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(ECHO_PIN, INPUT);
   pinMode(TRIG_PIN, OUTPUT);
+  neckController.attach(SERVO_PIN);
+  neckController.write(90);
+  delay(1000);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   int temp = readPing();
-  if (temp > 200) {
+  if (temp < 10) {
     moveStop();
+    delay(1000);
+    neckController.write(0);
+    if (temp < 10) {
+      turnRight();
+      delay(1000);
+      neckController.write(90);
+    } else {
+      neckController.write(180);
+      if (temp < 10) {
+        turnLeft();
+        delay(1000);
+        neckController.write(90);
+      }
+    }
   } else {
     moveForward();
   }
